@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContaBancaria.Model;
+using System;
 
 namespace ContaBancaria
 {
@@ -8,6 +9,8 @@ namespace ContaBancaria
         {
 
             int opcao;
+            Conta conta01 = new Conta(1, 4123, 1, "Robson Alves Rocha", 10000000.00M);
+            Conta conta02 = new Conta(2, 4123, 2, "Robson Alves Rocha", 50000000.00M);
 
             while (true)
             {
@@ -15,7 +18,7 @@ namespace ContaBancaria
 
                 opcao = Convert.ToInt32(Console.ReadLine());
 
-                if(opcao == 9)
+                if(opcao == 0)
                 {
                     Console.Clear();
                     Console.WriteLine("\n#CASHTAG BANK - CUIDANDO DO SEU DINHEIRO COMO SE FOSSE NOSSO!");
@@ -36,6 +39,10 @@ namespace ContaBancaria
                         break;
                     case 3:
                         Console.WriteLine("Consultar dados da conta - por número\n\n");
+                        Console.Clear();
+                        conta01.VisualizarConta();
+                        Console.WriteLine("");
+                        conta02.VisualizarConta();
                         KeyPress();
                         break;
                     case 4:
@@ -56,6 +63,10 @@ namespace ContaBancaria
                         break;
                     case 8:
                         Console.WriteLine("Transferência entre Contas\n\n");
+                        KeyPress();
+                        break;
+                    case 9:
+                        Console.WriteLine("\nSeu saldo é de: " + conta01.getSaldo().ToString("C"));
                         KeyPress();
                         break;
                     default:
@@ -96,7 +107,8 @@ namespace ContaBancaria
             Console.WriteLine("$            6 - Sacar                                                            $");
             Console.WriteLine("$            7 - Depositar                                                        $");
             Console.WriteLine("$            8 - Transferir valores entre Contas                                  $");
-            Console.WriteLine("$            9 - Sair                                                             $");
+            Console.WriteLine("$            9 - Exibir saldo                                                     $");
+            Console.WriteLine("$            0 - Sair                                                             $");
             Console.WriteLine("$                                                                                 $");
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("                                                                                   ");
@@ -105,6 +117,7 @@ namespace ContaBancaria
             Console.WriteLine("                                                                                   ");
             Console.WriteLine("Entre com a opção desejada:                                                        ");
             Console.WriteLine("                                                                                   ");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
         }
 
         static void Sobre() {
