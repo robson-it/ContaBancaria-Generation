@@ -31,16 +31,6 @@ namespace ContaBancaria.Model
             return true;
         }
 
-        public override bool Depositar(decimal valorDeposito)
-        {
-            if (valorDeposito > 0)
-            {
-                setSaldo(valorDeposito + getSaldo());
-                return true;
-            }
-            Console.WriteLine("Digite um valor válido!");
-            return false;
-        }
 
         public override void VisualizarConta() {
             base.VisualizarConta();
