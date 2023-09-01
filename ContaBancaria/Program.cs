@@ -12,6 +12,12 @@ namespace ContaBancaria
             Conta conta01 = new Conta(1, 4123, 1, "Robson Alves Rocha", 10000000.00M);
             Conta conta02 = new Conta(2, 4123, 2, "Robson Alves Rocha", 50000000.00M);
 
+            ContaPoupanca contaPoupanca01 = new ContaPoupanca(1, 4123, 2, "Robson Alves Rocha", 10000000.00M, 22);
+            ContaPoupanca contaPoupanca02 = new ContaPoupanca(2, 4123, 2, "Robson Alves Rocha", 50000000.00M, 11);
+
+            ContaCorrente contaCorrente01 = new ContaCorrente(1, 4123, 1, "Robson Alves Rocha", 10000000.00M, 5000M);
+            ContaCorrente contaCorrente02 = new ContaCorrente(2, 4123, 1, "Robson Alves Rocha", 50000000.00M, 15000M);
+
             while (true)
             {
                 Menu();
@@ -35,14 +41,22 @@ namespace ContaBancaria
                         break;
                     case 2:
                         Console.WriteLine("Listar todas as contas\n\n");
-                        KeyPress();
-                        break;
-                    case 3:
-                        Console.WriteLine("Consultar dados da conta - por número\n\n");
                         Console.Clear();
                         conta01.VisualizarConta();
                         Console.WriteLine("");
                         conta02.VisualizarConta();
+                        Console.WriteLine("");
+                        contaPoupanca01.VisualizarConta();
+                        Console.WriteLine("");
+                        contaPoupanca02.VisualizarConta();
+                        Console.WriteLine("");
+                        contaCorrente01.VisualizarConta();
+                        Console.WriteLine("");
+                        contaCorrente02.VisualizarConta();
+                        KeyPress();
+                        break;
+                    case 3:
+                        Console.WriteLine("Consultar dados da conta - por número\n\n"); 
                         KeyPress();
                         break;
                     case 4:

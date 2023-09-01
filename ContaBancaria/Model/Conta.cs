@@ -55,7 +55,7 @@ namespace ContaBancaria.Model
             this.saldo = saldo; 
         }
 
-        public bool Sacar(decimal valorSaque) {
+        public virtual bool Sacar(decimal valorSaque) {
             if (saldo < valorSaque) {
                 Console.WriteLine("Saldo insuficiente!");
                 return false;
@@ -64,7 +64,7 @@ namespace ContaBancaria.Model
             return true;
         }
 
-        public bool Depositar(decimal valorDeposito) { 
+        public virtual bool Depositar(decimal valorDeposito) { 
             if(valorDeposito > 0)
             {
                 this.setSaldo(valorDeposito + saldo);
@@ -74,7 +74,7 @@ namespace ContaBancaria.Model
             return false;
         }
 
-        public void VisualizarConta() {
+        public virtual void VisualizarConta() {
 
             string tipoConta = "";
 
@@ -93,16 +93,12 @@ namespace ContaBancaria.Model
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("                                 ::Dados da conta::                               ");
             Console.WriteLine($"                                                                                 ");
-            Console.WriteLine($"    Número da conta: {this.numero}                                               ");
-            Console.WriteLine($"    Número da agência: {this.agencia}                                            ");
+            Console.WriteLine($"    Número da conta: {this.getNumero()}                                          ");
+            Console.WriteLine($"    Número da agência: {this.getAgencia()}                                       ");
             Console.WriteLine($"    Tipo da conta: {tipoConta}                                                   ");
-            Console.WriteLine($"    Titular da conta: {this.titular}                                             ");
-            Console.WriteLine($"    Saldo da conta: {this.saldo.ToString("C")}                                   ");
-            Console.WriteLine("                                                                                  ");
-            Console.BackgroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("                                                                                  ");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine($"    Titular da conta: {this.getTitular()}                                        ");
+            Console.WriteLine($"    Saldo da conta: {this.getSaldo().ToString("C")}                              ");
+            
         }
 
     }
