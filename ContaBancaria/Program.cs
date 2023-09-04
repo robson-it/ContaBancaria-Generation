@@ -1,4 +1,5 @@
-﻿using ContaBancaria.Model;
+﻿using ContaBancaria.Controller;
+using ContaBancaria.Model;
 using System;
 
 namespace ContaBancaria
@@ -8,12 +9,19 @@ namespace ContaBancaria
         static void Main(string[] args)
         {
 
-            int opcao;
-            Conta conta01 = new Conta(1, 4123, 1, "Robson Alves Rocha", 10000000.00M);
-            Conta conta02 = new Conta(2, 4123, 2, "Robson Alves Rocha", 50000000.00M);
+            int opcao, numeroAgencia, tipoConta, aniversario;
+            string? titular;
+            decimal saldoConta, limiteConta;
 
-            ContaPoupanca contaPoupanca01 = new ContaPoupanca(1, 4123, 2, "Robson Alves Rocha", 10000000.00M, 22);
-            ContaPoupanca contaPoupanca02 = new ContaPoupanca(2, 4123, 2, "Robson Alves Rocha", 50000000.00M, 11);
+            ContaController contas = new ContaController();
+            //Conta conta01 = new Conta(1, 4123, 1, "Robson Alves Rocha", 10000000.00M);
+            //Conta conta02 = new Conta(2, 4123, 2, "Robson Alves Rocha", 50000000.00M);
+
+            ContaPoupanca contaPoupanca01 = new ContaPoupanca(contas.GerarNumero(), 4123, 2, "Robson Alves Rocha", 10000000.00M, 22);
+            contas.Cadastrar(contaPoupanca01);
+
+            ContaPoupanca contaPoupanca02 = new ContaPoupanca(contas.GerarNumero(), 4123, 2, "Robson Alves Rocha", 50000000.00M, 11);
+            contas.Cadastrar(contaPoupanca02);
 
             ContaCorrente contaCorrente01 = new ContaCorrente(1, 4123, 1, "Robson Alves Rocha", 10000000.00M, 5000M);
             ContaCorrente contaCorrente02 = new ContaCorrente(2, 4123, 1, "Robson Alves Rocha", 50000000.00M, 15000M);
@@ -24,7 +32,7 @@ namespace ContaBancaria
 
                 opcao = Convert.ToInt32(Console.ReadLine());
 
-                if(opcao == 0)
+                if (opcao == 0)
                 {
                     Console.Clear();
                     Console.WriteLine("\n#CASHTAG BANK - CUIDANDO DO SEU DINHEIRO COMO SE FOSSE NOSSO!");
@@ -37,26 +45,47 @@ namespace ContaBancaria
                 {
                     case 1:
                         Console.WriteLine("Nova conta\n\n");
+
+                        Console.WriteLine("Digite o número agência: ");
+                        numeroAgencia = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Digite o nome do titular: ");
+                        titular = Console.ReadLine();
+                        titular ??= string.Empty;
+
+                        do
+                        {
+                            Console.WriteLine("Digite o tipo da conta [1]Corrente [2]Poupança: ");
+                            tipoConta = Convert.ToInt32(Console.ReadLine());
+                        } while (tipoConta != 1 & tipoConta != 2);
+
+                        Console.WriteLine("Digite o saldo da conta: ");
+                        saldoConta = Convert.ToDecimal(Console.ReadLine());
+                        switch (tipoConta)
+                        {
+                            case 1:
+                                Console.WriteLine("Digite o limite da conta: ");
+                                limiteConta = Convert.ToDecimal(Console.ReadLine());
+                                contas.Cadastrar(new ContaCorrente(contas.GerarNumero(), numeroAgencia, tipoConta, titular, saldoConta, limiteConta));
+                                break;
+                            case 2:
+                                Console.WriteLine("Digite o dia do aniversário da conta: ");
+                                aniversario = Convert.ToInt32(Console.ReadLine());
+                                contas.Cadastrar(new ContaPoupanca(contas.GerarNumero(), numeroAgencia, tipoConta, titular, saldoConta, aniversario));
+                                break;
+                        }
+
+
+
                         KeyPress();
                         break;
                     case 2:
                         Console.WriteLine("Listar todas as contas\n\n");
                         Console.Clear();
-                        conta01.VisualizarConta();
-                        Console.WriteLine("");
-                        conta02.VisualizarConta();
-                        Console.WriteLine("");
-                        contaPoupanca01.VisualizarConta();
-                        Console.WriteLine("");
-                        contaPoupanca02.VisualizarConta();
-                        Console.WriteLine("");
-                        contaCorrente01.VisualizarConta();
-                        Console.WriteLine("");
-                        contaCorrente02.VisualizarConta();
+                        contas.ListarTodasContas();
                         KeyPress();
                         break;
                     case 3:
-                        Console.WriteLine("Consultar dados da conta - por número\n\n"); 
+                        Console.WriteLine("Consultar dados da conta - por número\n\n");
                         KeyPress();
                         break;
                     case 4:
@@ -80,7 +109,7 @@ namespace ContaBancaria
                         KeyPress();
                         break;
                     case 9:
-                        Console.WriteLine("\nSeu saldo é de: " + conta01.getSaldo().ToString("C"));
+
                         KeyPress();
                         break;
                     default:
@@ -89,7 +118,7 @@ namespace ContaBancaria
                         break;
                 }
             }
-            
+
         }
 
         private static ConsoleKeyInfo consoleKeyInfo;
@@ -134,7 +163,8 @@ namespace ContaBancaria
             Console.ForegroundColor = ConsoleColor.DarkYellow;
         }
 
-        static void Sobre() {
+        static void Sobre()
+        {
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("                                                                                   ");
             Console.ResetColor();
