@@ -3,6 +3,7 @@ using ContaBancaria.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +17,19 @@ namespace ContaBancaria.Controller
 
         public void Atualizar(Conta conta)
         {
-            throw new NotImplementedException();
+            var buscaConta = BuscarNaCollection(conta.getNumero());
+            if (buscaConta is not null)
+            {
+                var index = listaContas.IndexOf(buscaConta);
+                listaContas[index] = conta;
+                Console.WriteLine($"A conta {conta.getNumero()} foi atualizada com sucesso!");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"A conta {numero} não foi encontrada!");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
 
         public void Cadastrar(Conta conta)
@@ -27,7 +40,20 @@ namespace ContaBancaria.Controller
 
         public void Deletar(int numero)
         {
-            throw new NotImplementedException();
+            var conta = BuscarNaCollection(numero);
+            if (conta is not null)
+            {
+                if (listaContas.Remove(conta))
+                {
+                    Console.WriteLine($"A conta {conta.getNumero()} foi removida com sucesso!");
+                };
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"A conta {numero} não foi encontrada!");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
 
         public void Depositar(int numeroConta, decimal valorDeposito)
@@ -45,7 +71,17 @@ namespace ContaBancaria.Controller
 
         public void ProcurarPorNumero(int numero)
         {
-            throw new NotImplementedException();
+            var conta = BuscarNaCollection(numero);
+            if (conta is not null)
+            {
+                conta.VisualizarConta();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"A conta {numero} não foi encontrada!");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
 
         public void Sacar(int numeroConta, decimal valorSaque)
@@ -64,5 +100,19 @@ namespace ContaBancaria.Controller
         {
             return ++numero;
         }
+
+        //Método para buscar um objeto conta através do número
+        public Conta? BuscarNaCollection(int numero)
+        {
+            foreach(var conta in listaContas)
+            {
+                if (conta.getNumero() == numero)
+                    return conta;
+                
+            }
+            return null;
+        }
+
+         
     }
 }
