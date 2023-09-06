@@ -60,7 +60,7 @@ namespace ContaBancaria.Model
                 Console.WriteLine("Saldo insuficiente!");
                 return false;
             }
-            this.setSaldo (valorSaque - saldo);
+            this.setSaldo (saldo - valorSaque);
             return true;
         }
 

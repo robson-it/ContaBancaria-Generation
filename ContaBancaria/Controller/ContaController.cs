@@ -62,7 +62,19 @@ namespace ContaBancaria.Controller
 
         public void Depositar(int numeroConta, decimal valorDeposito)
         {
-            throw new NotImplementedException();
+            var conta = BuscarNaCollection(numeroConta);
+
+            if (conta is not null)
+            {
+                conta.Depositar(valorDeposito);
+                Console.WriteLine($"Depósito na conta {numeroConta} realizado com sucesso!");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"A conta {numero} não foi encontrada!");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
 
         public void ListarTodasContas()
@@ -90,12 +102,40 @@ namespace ContaBancaria.Controller
 
         public void Sacar(int numeroConta, decimal valorSaque)
         {
-            throw new NotImplementedException();
+            var conta = BuscarNaCollection(numeroConta);
+            
+            if(conta is not null)
+            {
+                Console.WriteLine((conta.Sacar(valorSaque))? $"Saque na conta {numeroConta} realizado com sucesso!":"");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"A conta {numero} não foi encontrada!");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
 
         public void Transferir(int numeroContaOrigem, int numeroContaDestino, decimal valorTransferencia)
         {
-            throw new NotImplementedException();
+            var contaOrigem = BuscarNaCollection(numeroContaOrigem);
+            var contaDestino = BuscarNaCollection(numeroContaDestino);
+
+            if(contaOrigem is not null && contaDestino is not null)
+            {
+                if (contaOrigem.Sacar(valorTransferencia))
+                {
+                    contaDestino.Depositar(valorTransferencia);
+                    Console.WriteLine($"A transferência da conta {numeroContaOrigem} para a conta {numeroContaDestino} realizada com sucesso! {valorTransferencia.ToString("C")}");
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine((BuscarNaCollection(numeroContaOrigem) is not null) ? $"A conta de origem [{numeroContaOrigem}] não foi encontrada!" : "");
+                Console.WriteLine((BuscarNaCollection(numeroContaDestino) is not null) ? $"A conta de destino [{numeroContaDestino}] não foi encontrada!" : "");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
 
         //Métodos Auxiliares

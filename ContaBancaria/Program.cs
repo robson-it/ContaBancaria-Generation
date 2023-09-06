@@ -10,9 +10,9 @@ namespace ContaBancaria
         static void Main(string[] args)
         {
 
-            int opcao, numeroAgencia, tipoConta, aniversario, numero;
+            int opcao, numeroAgencia, tipoConta, aniversario, numero, numeroDestino;
             string? titular;
-            decimal saldoConta, limiteConta;
+            decimal saldoConta, limiteConta, valor ;
 
             //Criando uma instância da classe ContaController na variável contas. 
             ContaController contas = new ContaController();
@@ -208,6 +208,28 @@ namespace ContaBancaria
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Realizar um saque ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     case 6:
                         Console.WriteLine("Saque\n\n");
+
+                        do
+                        {
+                            
+                            try
+                            {
+                                Console.WriteLine("Digite o número da conta: ");
+                                numero = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine("Digite o valor do saque: ");
+                                valor = Convert.ToDecimal(Console.ReadLine());
+                                Console.Clear();
+                                contas.Sacar(numero, valor);
+                                break;
+                            }
+                            catch (FormatException e)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Dados inválidos!");
+                                KeyPress();
+                            }
+                        } while (true);
+
                         KeyPress();
                         break;
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Realizar um saque ++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -215,12 +237,58 @@ namespace ContaBancaria
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Realizar um depósito +++++++++++++++++++++++++++++++++++++++++++++++++++++
                     case 7:
                         Console.WriteLine("Depósito\n\n");
+
+                        do
+                        {
+                            
+                            try
+                            {
+                                Console.WriteLine("Digite o número da conta: ");
+                                numero = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine("Digite o valor do depósito: ");
+                                valor = Convert.ToDecimal(Console.ReadLine());
+                                contas.Depositar(numero, valor);
+                                Console.Clear();
+                                break;
+                            }
+                            catch (FormatException e)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Dados inválidos!");
+                                KeyPress();
+                            }
+                        } while (true);
+
                         KeyPress();
                         break;
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Realizar um depósito +++++++++++++++++++++++++++++++++++++++++++++++++
 
                     case 8:
                         Console.WriteLine("\nTransferência entre Contas\n");
+
+                        do
+                        {
+
+                            try
+                            {
+                                Console.WriteLine("Digite o número da conta origem: ");
+                                numero = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine("Digite o número da conta destino: ");
+                                numeroDestino = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine("Digite o valor da transferência: ");
+                                valor = Convert.ToDecimal(Console.ReadLine());
+                                Console.Clear();
+                                contas.Transferir(numero, numeroDestino, valor);
+                                break;
+                            }
+                            catch (FormatException e)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Dados inválidos!");
+                                KeyPress();
+                            }
+                        } while (true);
+
                         KeyPress();
                         break;
                     case 9:
