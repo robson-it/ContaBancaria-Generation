@@ -22,10 +22,12 @@ namespace ContaBancaria.Controller
             {
                 var index = listaContas.IndexOf(buscaConta);
                 listaContas[index] = conta;
+                Console.Clear();
                 Console.WriteLine($"A conta {conta.getNumero()} foi atualizada com sucesso!");
             }
             else
             {
+                Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"A conta {numero} não foi encontrada!");
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -45,13 +47,15 @@ namespace ContaBancaria.Controller
             {
                 if (listaContas.Remove(conta))
                 {
-                    Console.WriteLine($"A conta {conta.getNumero()} foi removida com sucesso!");
+                    Console.Clear();
+                    Console.WriteLine($"\nA conta {conta.getNumero()} foi removida com sucesso!");
                 };
             }
             else
             {
+                Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"A conta {numero} não foi encontrada!");
+                Console.WriteLine($"\nA conta {numero} não foi encontrada!");
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
             }
         }

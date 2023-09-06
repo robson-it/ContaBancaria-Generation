@@ -14,23 +14,32 @@ namespace ContaBancaria
             string? titular;
             decimal saldoConta, limiteConta;
 
+            //Criando uma instância da classe ContaController na variável contas. 
             ContaController contas = new ContaController();
-            //Conta conta01 = new Conta(1, 4123, 1, "Robson Alves Rocha", 10000000.00M);
-            //Conta conta02 = new Conta(2, 4123, 2, "Robson Alves Rocha", 50000000.00M);
 
+            //Cadastrando contas fictícias +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             ContaPoupanca contaPoupanca01 = new ContaPoupanca(contas.GerarNumero(), 4123, 2, "Robson Alves Rocha", 10000000.00M, 22);
             contas.Cadastrar(contaPoupanca01);
 
             ContaPoupanca contaPoupanca02 = new ContaPoupanca(contas.GerarNumero(), 4123, 2, "Robson Alves Rocha", 50000000.00M, 11);
             contas.Cadastrar(contaPoupanca02);
 
-            ContaCorrente contaCorrente01 = new ContaCorrente(1, 4123, 1, "Robson Alves Rocha", 10000000.00M, 5000M);
-            ContaCorrente contaCorrente02 = new ContaCorrente(2, 4123, 1, "Robson Alves Rocha", 50000000.00M, 15000M);
+            ContaCorrente contaCorrente01 = new ContaCorrente(contas.GerarNumero(), 4123, 1, "Robson Alves Rocha", 10000000.00M, 5000M);
+            contas.Cadastrar(contaCorrente01);
 
+            ContaCorrente contaCorrente02 = new ContaCorrente(contas.GerarNumero(), 4123, 1, "Robson Alves Rocha", 50000000.00M, 15000M);
+            contas.Cadastrar(contaCorrente02);
+            //Cadastrando contas fictícias  FIM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+            // Inicio do loop que exibe o menue realiza a operação selecionada
             while (true)
             {
+
+                //Chama o método Menu, que exibe o menu na tela.
                 Menu();
 
+                //Leitura da opção e tratamento de exceção
                 try
                 {
                     opcao = Convert.ToInt32(Console.ReadLine());
@@ -45,6 +54,7 @@ namespace ContaBancaria
                 }
                 
 
+                //Finaliza o programa caso a opção digitada seja 9.
                 if (opcao == 9)
                 {
                     Console.Clear();
@@ -54,11 +64,13 @@ namespace ContaBancaria
                     System.Environment.Exit(0);
                 }
 
+                //Switch para a opção selecionada.
                 switch (opcao)
                 {
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Cadastrar nova conta ++++++++++++++++++++++++++++++++++++++++++++++++
                     case 1:
-                        Console.WriteLine("Nova conta\n\n");
-
+                        Console.Clear();
+                        Console.WriteLine("\nNova conta\n");
                         Console.WriteLine("Digite o número agência: ");
                         numeroAgencia = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Digite o nome do titular: ");
@@ -86,42 +98,50 @@ namespace ContaBancaria
                                 contas.Cadastrar(new ContaPoupanca(contas.GerarNumero(), numeroAgencia, tipoConta, titular, saldoConta, aniversario));
                                 break;
                         }
-
-
-
                         KeyPress();
                         break;
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Cadastrar nova conta +++++++++++++++++++++++++++++++++++++++++++++++++
+
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Listar todas as contas ++++++++++++++++++++++++++++++++++++++++++++++++++
                     case 2:
-                        Console.WriteLine("Listar todas as contas\n\n");
                         Console.Clear();
+                        Console.WriteLine("\nListar todas as contas\n");
                         contas.ListarTodasContas();
                         KeyPress();
                         break;
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Listar todas as contas ++++++++++++++++++++++++++++++++++++++++++++++
+
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Consultar dados de uma conta por número +++++++++++++++++++++++++++++++++
                     case 3:
-                        Console.WriteLine("Consultar dados da conta - por número\n\n");
+                        Console.Clear();
+                        Console.WriteLine("\nConsultar dados da conta - por número\n");
                         do
                         {
                             Console.WriteLine("Digite o número da conta: ");
                             try
                             {
                                 numero = Convert.ToInt32(Console.ReadLine());
+                                Console.Clear();
                                 contas.ProcurarPorNumero(numero);
                                 break;
                             }
                             catch (FormatException e)
                             {
+                                Console.Clear();
                                 Console.WriteLine("Digite um número de conta válido!");
                                 KeyPress();
                             }
                         } while (true);
                         KeyPress();
                         break;
-                    case 4:
-                        Console.WriteLine("Atualizar dados da conta\n\n");
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Consultar dados de uma conta por número ++++++++++++++++++++++++++++++
 
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Atualizar dados de uma conta existente +++++++++++++++++++++++++++++++++++
+                    case 4:
+                        Console.Clear();
+                        Console.WriteLine("\nAtualizar dados da conta\n");
                         Console.WriteLine("Digite o número conta: ");
                         numero = Convert.ToInt32(Console.ReadLine());
-
                         var conta = contas.BuscarNaCollection(numero);
 
                         if (conta is not null)
@@ -153,15 +173,17 @@ namespace ContaBancaria
                         }
                         else
                         {
+                            Console.Clear();
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"A conta {numero} não foi encontrada!");
+                            Console.WriteLine($"\nA conta {numero} não foi encontrada!");
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
                         }
 
-                        
-
                         KeyPress();
                         break;
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Atualizar dados de uma conta existente +++++++++++++++++++++++++++++++
+
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Deletar uma conta existente ++++++++++++++++++++++++++++++++++++++++++++++
                     case 5:
                         Console.WriteLine("Apagar a conta\n\n");
                         do
@@ -175,21 +197,30 @@ namespace ContaBancaria
                             }
                             catch (FormatException e)
                             {
+                                Console.Clear();
                                 Console.WriteLine("Digite um número de conta válido!");
                             }
                         } while (true);
                         KeyPress();
                         break;
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Deletar uma conta existente ++++++++++++++++++++++++++++++++++++++++++
+
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Realizar um saque ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     case 6:
                         Console.WriteLine("Saque\n\n");
                         KeyPress();
                         break;
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Realizar um saque ++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Realizar um depósito +++++++++++++++++++++++++++++++++++++++++++++++++++++
                     case 7:
                         Console.WriteLine("Depósito\n\n");
                         KeyPress();
                         break;
+                    //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Realizar um depósito +++++++++++++++++++++++++++++++++++++++++++++++++
+
                     case 8:
-                        Console.WriteLine("Transferência entre Contas\n\n");
+                        Console.WriteLine("\nTransferência entre Contas\n");
                         KeyPress();
                         break;
                     case 9:
