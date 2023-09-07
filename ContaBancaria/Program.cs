@@ -87,13 +87,23 @@ namespace ContaBancaria
                             tipoConta = Convert.ToInt32(Console.ReadLine());
                         } while (tipoConta != 1 & tipoConta != 2);
 
-                        Console.WriteLine("Digite o saldo da conta: ");
-                        saldoConta = Convert.ToDecimal(Console.ReadLine());
+                        Console.WriteLine("[Saldo da conta]");
+                        saldoConta = ValidaValorDecimal("novo");
+
+                        if (saldoConta < 0)
+                        {
+                            break;
+                        }
+
                         switch (tipoConta)
                         {
                             case 1:
-                                Console.WriteLine("Digite o limite da conta: ");
-                                limiteConta = Convert.ToDecimal(Console.ReadLine());
+                                Console.WriteLine("[Limite da conta]");
+                                limiteConta = ValidaValorDecimal("novo");
+                                if (limiteConta < 0)
+                                    {
+                                        break;
+                                    }
                                 contas.Cadastrar(new ContaCorrente(contas.GerarNumero(), numeroAgencia, tipoConta, titular, saldoConta, limiteConta));
                                 break;
                             case 2:
@@ -130,8 +140,6 @@ namespace ContaBancaria
                         {
                             break;
                         }
-
-
                         KeyPress();
                         break;
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Consultar dados de uma conta por número ++++++++++++++++++++++++++++++
@@ -160,14 +168,22 @@ namespace ContaBancaria
                             titular ??= string.Empty;
 
                             tipoConta = conta.getTipo();
-
-                            Console.WriteLine("Digite o saldo da conta: ");
-                            saldoConta = Convert.ToDecimal(Console.ReadLine());
+                            
+                            Console.WriteLine("[Saldo da conta]");
+                            saldoConta = ValidaValorDecimal("saldoExistente", conta);
+                            if (saldoConta < 0)
+                            {
+                                break;
+                            }
                             switch (tipoConta)
                             {
                                 case 1:
-                                    Console.WriteLine("Digite o limite da conta: ");
-                                    limiteConta = Convert.ToDecimal(Console.ReadLine());
+                                    Console.WriteLine("[Limite da conta]");
+                                    limiteConta = ValidaValorDecimal("limiteExistente", conta);
+                                    if (limiteConta < 0)
+                                    {
+                                        break;
+                                    }
                                     contas.Atualizar(new ContaCorrente(numero, numeroAgencia, tipoConta, titular, saldoConta, limiteConta));
                                     break;
                                 case 2:
@@ -222,13 +238,24 @@ namespace ContaBancaria
                         }
                         else
                         {
-                            Console.WriteLine("Digite o valor do saque: ");
-                            valor = Convert.ToDecimal(Console.ReadLine());
+                            Console.WriteLine("[Valor do saque]");
+                            valor = ValidaValorDecimal("novo");
                             Console.Clear();
-                            contas.Sacar(numero, valor);
-                            KeyPress();
-                            Console.Clear();
-                            break;
+                            if(valor == 0) {
+                                Console.WriteLine("Tente novamente com um valor maior que R$ 0.00");
+                                KeyPress();
+                            }else if (valor < 0)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                contas.Sacar(numero, valor);
+                                KeyPress();
+                                Console.Clear();
+                                break;
+                            }
+                            break; 
                         }
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Realizar um saque ++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -242,13 +269,28 @@ namespace ContaBancaria
                         }
                         else
                         {
-                            Console.WriteLine("Digite o valor do depósito: ");
-                            valor = Convert.ToDecimal(Console.ReadLine());
+                            Console.WriteLine("[Valor do depósito]");
+                            valor = ValidaValorDecimal("novo");
                             Console.Clear();
-                            contas.Depositar(numero, valor);
-                            KeyPress();
-                            Console.Clear();
+
+                            if (valor == 0)
+                            {
+                                Console.WriteLine("Tente novamente com um valor maior que R$ 0.00");
+                                KeyPress();
+                            }
+                            else if (valor < 0)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                contas.Depositar(numero, valor);
+                                KeyPress();
+                                Console.Clear();
+                                break;
+                            }
                             break;
+
                         }
 
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Realizar um depósito +++++++++++++++++++++++++++++++++++++++++++++++++
@@ -271,12 +313,26 @@ namespace ContaBancaria
                         else
                         {
 
-                            Console.WriteLine("Digite o valor da transferência: ");
-                            valor = Convert.ToDecimal(Console.ReadLine());
+                            Console.WriteLine("[Valor da transferência]");
+                            valor = ValidaValorDecimal("novo");
                             Console.Clear();
-                            contas.Transferir(numero, numeroDestino, valor);
-                            KeyPress();
-                            Console.Clear();
+
+                            if (valor == 0)
+                            {
+                                Console.WriteLine("Tente novamente com um valor maior que R$ 0.00");
+                                KeyPress();
+                            }
+                            else if (valor < 0)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                contas.Transferir(numero, numeroDestino, valor);
+                                KeyPress();
+                                Console.Clear();
+                                break;
+                            }
                             break;
                         }
 
@@ -294,6 +350,8 @@ namespace ContaBancaria
         }
 
         private static ConsoleKeyInfo consoleKeyInfo;
+
+        //*********************************************************************************************************************
         static void Menu()
         {
             Console.Clear();
@@ -335,6 +393,7 @@ namespace ContaBancaria
             Console.ForegroundColor = ConsoleColor.DarkYellow;
         }
 
+        //*********************************************************************************************************************
         static void Sobre()
         {
             Console.BackgroundColor = ConsoleColor.DarkCyan;
@@ -358,6 +417,7 @@ namespace ContaBancaria
             } while (consoleKeyInfo.Key != ConsoleKey.Enter);
         }
 
+        //*********************************************************************************************************************
         static int ValidaNumeroConta()
         {
             var numeroConta = 0;
@@ -393,7 +453,7 @@ namespace ContaBancaria
             return numeroConta;
         }
 
-
+        //*********************************************************************************************************************
         static int ValidaNumeroAgencia(string tipo, Conta conta = null)
         {
             var numeroAgencia = 0;
@@ -461,6 +521,7 @@ namespace ContaBancaria
             return numeroAgencia;
         }
 
+        //*********************************************************************************************************************
         static decimal ValidaValorDecimal(string tipo, Conta conta = null)
         {
             decimal valorDecimal;
@@ -472,7 +533,14 @@ namespace ContaBancaria
                     {
                         Console.WriteLine("Digite o valor R$: ");
                         valorDecimal = Convert.ToDecimal(Console.ReadLine());
-                        break;
+                        if (valorDecimal < 0)
+                        {
+                            Console.WriteLine("O valor precisa ser maior que R$ 0.00");
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                     catch (Exception e)
                     {
@@ -494,11 +562,26 @@ namespace ContaBancaria
                     {
                         Console.WriteLine("Digite o valor R$: ");
                         valorDecimal = Convert.ToDecimal(Console.ReadLine());
-                        break;
+                        if (valorDecimal < 0)
+                        {
+                            Console.WriteLine("O valor precisa ser maior que R$ 0.00");
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Valor R$ inválido! [Enter] Tentar novamente | \"M\" Manter valor atual | \"C\" Cancelar operação: ");
+                        if (tipo.Equals("saldoExistente"))
+                        {
+                            Console.WriteLine("Valor R$ inválido! [Enter] Tentar novamente | \"M\" Manter valor atual | \"C\" Cancelar operação: ");
+                        }
+                        else {
+                            Console.WriteLine("Valor R$ inválido! [Enter] Tentar novamente | \"C\" Cancelar operação: ");
+                        }
+                        
                         string opcao = Console.ReadLine();
                         if (opcao.ToUpper().Equals("C"))
                         {
@@ -507,8 +590,16 @@ namespace ContaBancaria
                             break;
                         } else if (opcao.ToUpper().Equals("M"))
                         {
-                            valorDecimal = conta.getSaldo();
-                            break;
+                            if (tipo.Equals("saldoExistente"))
+                            {
+                                valorDecimal = conta.getSaldo();
+                                break;
+                            }
+                            else if (tipo.Equals("limiteExistente"))
+                            {
+                                Console.WriteLine("É obrigatório digitar o limite!");
+                            }
+ 
                         } 
                     }
                 } while (true);
@@ -518,6 +609,8 @@ namespace ContaBancaria
             return valorDecimal;
         }
 
+
+        //*********************************************************************************************************************
         static void CancelarOperacao()
         {
             Console.Clear();
@@ -526,6 +619,7 @@ namespace ContaBancaria
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             KeyPress();
         }
+        //*********************************************************************************************************************
 
     }
 }
