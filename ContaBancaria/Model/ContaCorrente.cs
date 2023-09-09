@@ -18,7 +18,7 @@ namespace ContaBancaria.Model
         }
 
         public void setLimite(decimal limite) { this.limite = limite; }
-        public decimal getLimite() { return limite; }
+        public override decimal getLimite() { return limite; }
 
         public override bool Sacar(decimal valorSaque)
         {
@@ -27,7 +27,7 @@ namespace ContaBancaria.Model
                 Console.WriteLine("Saldo insuficiente!");
                 return false;
             }
-            setSaldo(valorSaque - getSaldo());
+            setSaldo(getSaldo() - valorSaque);
             return true;
         }
 
@@ -39,6 +39,7 @@ namespace ContaBancaria.Model
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("                                                                                  ");
             Console.ResetColor();
+            Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             
         }

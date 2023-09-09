@@ -74,6 +74,16 @@ namespace ContaBancaria.Model
             return false;
         }
 
+        public virtual decimal getLimite()
+        {
+            return 0;
+        }
+
+        public virtual int getAniversarioConta()
+        {
+            return 0;
+        }
+
         public virtual void VisualizarConta() {
 
             string tipoConta = "";

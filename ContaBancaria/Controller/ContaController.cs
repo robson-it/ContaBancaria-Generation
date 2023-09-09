@@ -13,6 +13,7 @@ namespace ContaBancaria.Controller
     {
 
         private readonly List<Conta> listaContas = new List<Conta>();
+
         int numero = 0;
 
         public void Atualizar(Conta conta)
@@ -38,6 +39,7 @@ namespace ContaBancaria.Controller
         {
             listaContas.Add(conta);
             Console.WriteLine($"A conta número {conta.getNumero()} foi criada com sucesso!");
+            
         }
 
         public void Deletar(int numero)
@@ -111,7 +113,7 @@ namespace ContaBancaria.Controller
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"A conta {numero} não foi encontrada!");
+                Console.WriteLine($"A conta {numeroConta} não foi encontrada!");
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
             }
         }
@@ -157,6 +159,5 @@ namespace ContaBancaria.Controller
             return null;
         }
 
-         
     }
 }
