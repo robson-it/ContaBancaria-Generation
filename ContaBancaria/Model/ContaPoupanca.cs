@@ -18,12 +18,12 @@ namespace ContaBancaria.Model
         }
 
         public void setAniversario(int aniversario) { this.aniversario = aniversario; }
-        public decimal getAniversario() { return aniversario; }
+        public override int getAniversarioConta() { return aniversario; }
 
         public override void VisualizarConta()
         {
             base.VisualizarConta();
-            Console.WriteLine($"    Dia aniversário: {this.getAniversario()}                                     ");
+            Console.WriteLine($"    Dia aniversário: {this.getAniversarioConta()}                                     ");
             Console.WriteLine("                                                                                  ");
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("                                                                                  ");

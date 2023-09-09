@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,6 +75,15 @@ namespace ContaBancaria.Model
             return false;
         }
 
+        public virtual decimal getLimite()
+        {
+            return 0;
+        }
+
+        public virtual int getAniversarioConta()
+        {
+            return 0;
+        }
         public virtual void VisualizarConta() {
 
             string tipoConta = "";
@@ -86,6 +96,8 @@ namespace ContaBancaria.Model
                     tipoConta = "Conta poupança";
                     break;
             }
+            
+            
 
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("                                                                                  ");

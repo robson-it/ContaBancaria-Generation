@@ -18,7 +18,7 @@ namespace ContaBancaria.Model
         }
 
         public void setLimite(decimal limite) { this.limite = limite; }
-        public decimal getLimite() { return limite; }
+        public override decimal getLimite() { return limite; }
 
         public override bool Sacar(decimal valorSaque)
         {
