@@ -35,6 +35,7 @@ namespace ContaBancaria.Controller
             }
             else
             {
+                operacoesRealizadas.Add("[TENTATIVA DE ATUALIZAR CONTA SEM SUCESSO]\n\n");
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"A conta {numero} não foi encontrada!");
@@ -75,6 +76,7 @@ namespace ContaBancaria.Controller
             }
             else
             {
+                operacoesRealizadas.Add("[TENTATIVA DE DELETAR CONTA SEM SUCESSO]\n\n");
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"\nA conta {numero} não foi encontrada!");
@@ -93,7 +95,7 @@ namespace ContaBancaria.Controller
                                     $"Agência:{conta.getAgencia()} |\n " +
                                     "Tipo:" + ((conta.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " |\n " +
                                     $"Titular:{conta.getTitular()} |\n " +
-                                    $"Saldo:{conta.getSaldo()} + {valorDeposito.ToString("C")} |\n " +
+                                    $"Saldo:{conta.getSaldo()} + {valorDeposito.ToString("C")} => {conta.getSaldo() + valorDeposito} |\n " +
                                     "" + ((conta.getTipo() == 1) ? "Limite:" + conta.getLimite() : "Aniversário:" + conta.getAniversarioConta()) + "\n\n");
 
                 conta.Depositar(valorDeposito);
@@ -102,6 +104,7 @@ namespace ContaBancaria.Controller
             }
             else
             {
+                operacoesRealizadas.Add("[TENTATIVA DE DEPÓSITO SEM SUCESSO]\n\n");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"A conta {numero} não foi encontrada!");
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -113,13 +116,16 @@ namespace ContaBancaria.Controller
             foreach (var conta in listaContas)
             {
                 conta.VisualizarConta();
+                operacoesRealizadas.Add("[LISTAR TODAS AS CONTAS]\n\n");
             }
         }
 
         public void ListarOperacoesRealizadas()
         {
+            operacoesRealizadas.Add("[LISTAR OPERAÇÕES REALIZADAS]\n\n");
             foreach (var operacao in operacoesRealizadas)
             {
+                
                 Console.WriteLine(operacao);
             }
         }
@@ -127,6 +133,7 @@ namespace ContaBancaria.Controller
         public void ProcurarPorNumero(int numero)
         {
             var conta = BuscarNaCollection(numero);
+            operacoesRealizadas.Add("[PROCURAR CONTA POR NÚMERO]\n\n");
             if (conta is not null)
             {
                 conta.VisualizarConta();
@@ -150,12 +157,13 @@ namespace ContaBancaria.Controller
                                     $"Agência:{conta.getAgencia()} |\n " +
                                     "Tipo:" + ((conta.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " |\n " +
                                     $"Titular:{conta.getTitular()} |\n " +
-                                    $"Saldo:{conta.getSaldo()} - {valorSaque.ToString("C")} |\n " +
+                                    $"Saldo:{conta.getSaldo()} - {valorSaque.ToString("C")} => {conta.getSaldo() - valorSaque} |\n " +
                                     "" + ((conta.getTipo() == 1) ? "Limite:" + conta.getLimite() : "Aniversário:" + conta.getAniversarioConta()) + "\n\n");
                 Console.WriteLine((conta.Sacar(valorSaque))? $"Saque na conta {numeroConta} realizado com sucesso!":"");
             }
             else
             {
+                operacoesRealizadas.Add("[TENTATIVA DE SAQUE SEM SUCESSO]\n\n");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"A conta {numero} não foi encontrada!");
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -188,6 +196,7 @@ namespace ContaBancaria.Controller
             }
             else
             {
+                operacoesRealizadas.Add("[TENTATIVA DE TRANSFERÊNCIA SEM SUCESSO]\n\n");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine((BuscarNaCollection(numeroContaOrigem) is not null) ? $"A conta de origem [{numeroContaOrigem}] não foi encontrada!" : "");
                 Console.WriteLine((BuscarNaCollection(numeroContaDestino) is not null) ? $"A conta de destino [{numeroContaDestino}] não foi encontrada!" : "");

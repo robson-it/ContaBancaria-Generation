@@ -23,7 +23,7 @@ namespace ContaBancaria.Model
         public override void VisualizarConta()
         {
             base.VisualizarConta();
-            Console.WriteLine($"    Dia aniversário: {this.getAniversarioConta()}                                     ");
+            Console.WriteLine($"    Dia aniversário: {this.getAniversarioConta()}                                ");
             Console.WriteLine("                                                                                  ");
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("                                                                                  ");

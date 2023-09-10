@@ -486,7 +486,7 @@ namespace ContaBancaria
                             break;
                         }
 
-                    case 0:
+                    case 10:
                         Console.Clear();
                         Console.BackgroundColor = ConsoleColor.DarkCyan;
                         Console.WriteLine("                                                                                  ");
@@ -531,11 +531,11 @@ namespace ContaBancaria
             Console.WriteLine("""$                                                                                 $""");
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("                                     -- BANK --                                    ");
+            Console.WriteLine("                                     :::BANK:::                                    ");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("$                                                                                 $");
-            Console.WriteLine("$            0 - Listar Operações realizadas                                      $");
+            
             Console.WriteLine("$            1 - Criar Conta                                                      $");
             Console.WriteLine("$            2 - Listar todas as Contas                                           $");
             Console.WriteLine("$            3 - Buscar Conta por Numero                                          $");
@@ -544,8 +544,9 @@ namespace ContaBancaria
             Console.WriteLine("$            6 - Sacar                                                            $");
             Console.WriteLine("$            7 - Depositar                                                        $");
             Console.WriteLine("$            8 - Transferir valores entre Contas                                  $");
-            //Console.WriteLine("$            9 - Exibir saldo                                                     $");
+            //Console.WriteLine("$            9 - Exibir saldo                                                   $");
             Console.WriteLine("$            9 - Sair                                                             $");
+            Console.WriteLine("$            10 - Listar operações realizadas                                     $");
             Console.WriteLine("$                                                                                 $");
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("                                                                                   ");
@@ -825,7 +826,7 @@ namespace ContaBancaria
 
                         Console.WriteLine("\nDigite o valor R$: ");
                         valorDecimal = Convert.ToDecimal(Console.ReadLine());
-                        if (valorDecimal < 0)
+                        if (valorDecimal <= 0)
                         {
                             Console.Clear();
                             Console.WriteLine("\nO valor precisa ser maior que R$ 0.00");
@@ -857,7 +858,7 @@ namespace ContaBancaria
                     {
                         Console.WriteLine("\nDigite o valor R$: ");
                         valorDecimal = Convert.ToDecimal(Console.ReadLine());
-                        if (valorDecimal < 0)
+                        if (valorDecimal <= 0)
                         {
                             Console.Clear();
                             Console.WriteLine("\nO valor precisa ser maior que R$ 0.00");
