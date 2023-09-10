@@ -13,6 +13,7 @@ namespace ContaBancaria.Controller
     {
 
         private readonly List<Conta> listaContas = new List<Conta>();
+        private readonly List<String> operacoesRealizadas = new List<string>();
         int numero = 0;
 
         public void Atualizar(Conta conta)
@@ -22,6 +23,13 @@ namespace ContaBancaria.Controller
             {
                 var index = listaContas.IndexOf(buscaConta);
                 listaContas[index] = conta;
+                operacoesRealizadas.Add($"[CONTA ATUALIZADA]:\n " +
+                                    $"Conta:{conta.getNumero()} |\n " +
+                                    $"Agência:{conta.getAgencia()} |\n " +
+                                    "Tipo:" + ((conta.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " |\n " +
+                                    $"Titular:{conta.getTitular()} |\n " +
+                                    $"Saldo:{conta.getSaldo()} |\n " +
+                                    "" + ((conta.getTipo() == 1) ? "Limite:" + conta.getLimite() : "Aniversário:" + conta.getAniversarioConta())+ "\n\n");
                 Console.Clear();
                 Console.WriteLine($"A conta {conta.getNumero()} foi atualizada com sucesso!");
             }
@@ -37,6 +45,13 @@ namespace ContaBancaria.Controller
         public void Cadastrar(Conta conta)
         {
             listaContas.Add(conta);
+            operacoesRealizadas.Add($"[CONTA CADASTRADA]:\n " +
+                                    $"Conta:{conta.getNumero()} |\n " +
+                                    $"Agência:{conta.getAgencia()} |\n " +
+                                    "Tipo:" + ((conta.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " |\n " +
+                                    $"Titular:{conta.getTitular()} |\n " +
+                                    $"Saldo:{conta.getSaldo()} |\n " +
+                                    "" + ((conta.getTipo() == 1) ? "Limite:" + conta.getLimite() : "Aniversário:" + conta.getAniversarioConta()) + "\n\n");
             Console.WriteLine($"A conta número {conta.getNumero()} foi criada com sucesso!");
         }
 
@@ -47,6 +62,13 @@ namespace ContaBancaria.Controller
             {
                 if (listaContas.Remove(conta))
                 {
+                    operacoesRealizadas.Add($"[CONTA DELETADA]:\n " +
+                                    $"Conta:{conta.getNumero()} |\n " +
+                                    $"Agência:{conta.getAgencia()} |\n " +
+                                    "Tipo:" + ((conta.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " |\n " +
+                                    $"Titular:{conta.getTitular()} |\n " +
+                                    $"Saldo:{conta.getSaldo()} |\n " +
+                                    "" + ((conta.getTipo() == 1) ? "Limite:" + conta.getLimite() : "Aniversário:" + conta.getAniversarioConta()) + "\n\n");
                     Console.Clear();
                     Console.WriteLine($"\nA conta {conta.getNumero()} foi removida com sucesso!");
                 };
@@ -66,7 +88,16 @@ namespace ContaBancaria.Controller
 
             if (conta is not null)
             {
+                operacoesRealizadas.Add($"[DEPÓSITO NA CONTA]:\n " +
+                                    $"Conta:{conta.getNumero()} |\n " +
+                                    $"Agência:{conta.getAgencia()} |\n " +
+                                    "Tipo:" + ((conta.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " |\n " +
+                                    $"Titular:{conta.getTitular()} |\n " +
+                                    $"Saldo:{conta.getSaldo()} + {valorDeposito.ToString("C")} |\n " +
+                                    "" + ((conta.getTipo() == 1) ? "Limite:" + conta.getLimite() : "Aniversário:" + conta.getAniversarioConta()) + "\n\n");
+
                 conta.Depositar(valorDeposito);
+                
                 Console.WriteLine($"Depósito na conta {numeroConta} realizado com sucesso!");
             }
             else
@@ -79,9 +110,17 @@ namespace ContaBancaria.Controller
 
         public void ListarTodasContas()
         {
-            foreach(var conta in listaContas)
+            foreach (var conta in listaContas)
             {
                 conta.VisualizarConta();
+            }
+        }
+
+        public void ListarOperacoesRealizadas()
+        {
+            foreach (var operacao in operacoesRealizadas)
+            {
+                Console.WriteLine(operacao);
             }
         }
 
@@ -106,6 +145,13 @@ namespace ContaBancaria.Controller
             
             if(conta is not null)
             {
+                operacoesRealizadas.Add($"[SAQUE NA CONTA]:\n " +
+                                    $"Conta:{conta.getNumero()} |\n " +
+                                    $"Agência:{conta.getAgencia()} |\n " +
+                                    "Tipo:" + ((conta.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " |\n " +
+                                    $"Titular:{conta.getTitular()} |\n " +
+                                    $"Saldo:{conta.getSaldo()} - {valorSaque.ToString("C")} |\n " +
+                                    "" + ((conta.getTipo() == 1) ? "Limite:" + conta.getLimite() : "Aniversário:" + conta.getAniversarioConta()) + "\n\n");
                 Console.WriteLine((conta.Sacar(valorSaque))? $"Saque na conta {numeroConta} realizado com sucesso!":"");
             }
             else
@@ -125,6 +171,17 @@ namespace ContaBancaria.Controller
             {
                 if (contaOrigem.Sacar(valorTransferencia))
                 {
+                    operacoesRealizadas.Add($"[TRANSFERÊNCIA ENTRE CONTAS]:\n " +
+                                    $"Conta Origem: {contaOrigem.getNumero()} | Conta Destino: {contaDestino.getNumero()} \n " +
+                                    $"Agência Origem: {contaOrigem.getAgencia()} | Agência Destino:{contaDestino.getAgencia()}\n " +
+                                    "Origem: " + ((contaOrigem.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " | " +
+                                    "Destino: " + ((contaDestino.getTipo() == 1) ? "Conta Corrente" : "Conta Poupança") + " |\n " +
+                                    $"Titular de Origem: {contaOrigem.getTitular()} | Titular de Destino: {contaDestino.getTitular()}\n " +
+                                    $"Saldo de Origem: {contaOrigem.getSaldo() + valorTransferencia} - {valorTransferencia.ToString("C")} | " +
+                                    $"Saldo de Destino: {contaDestino.getSaldo()} + {valorTransferencia.ToString("C")} |\n " +
+                                    "" + ((contaOrigem.getTipo() == 1) ? "Limite Origem: " + contaOrigem.getLimite() : "Aniversário Origem: " + contaOrigem.getAniversarioConta()) +
+                                    " | " + ((contaDestino.getTipo() == 1) ? "Limite Destino: " + contaDestino.getLimite() : "Aniversário Destino: " + contaDestino.getAniversarioConta()) +
+                                    "\n\n");
                     contaDestino.Depositar(valorTransferencia);
                     Console.WriteLine($"A transferência da conta {numeroContaOrigem} para a conta {numeroContaDestino} realizada com sucesso! {valorTransferencia.ToString("C")}");
                 }

@@ -320,8 +320,8 @@ namespace ContaBancaria
 
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Deletar uma conta existente ++++++++++++++++++++++++++++++++++++++++++++++
                     case 5:
+                        Console.Clear();
                         Console.WriteLine("Apagar a conta\n\n");
-
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("\n[NÚMERO DA CONTA]");
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -341,7 +341,11 @@ namespace ContaBancaria
 
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Realizar um saque ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     case 6:
-                        Console.WriteLine("Saque\n\n");
+                        Console.Clear();
+                        Console.WriteLine("Saque");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("\n[NÚMERO DA CONTA]");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
 
                         numero = ValidaNumeroConta();
                         if (numero < 0)
@@ -392,7 +396,11 @@ namespace ContaBancaria
 
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Realizar um depósito +++++++++++++++++++++++++++++++++++++++++++++++++++++
                     case 7:
-                        Console.WriteLine("Depósito\n\n");
+                        Console.Clear();
+                        Console.WriteLine("Depósito");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("\n[NÚMERO DA CONTA]");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
                         numero = ValidaNumeroConta();
                         if (numero < 0)
                         {
@@ -478,8 +486,21 @@ namespace ContaBancaria
                             break;
                         }
 
-                    case 10:
-
+                    case 0:
+                        Console.Clear();
+                        Console.BackgroundColor = ConsoleColor.DarkCyan;
+                        Console.WriteLine("                                                                                  ");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine("                              ::Operações Realizadas::                            ");
+                        Console.WriteLine($"                                                                                 ");
+                        contas.ListarOperacoesRealizadas();
+                        Console.WriteLine("                                                                                  ");
+                        Console.BackgroundColor = ConsoleColor.DarkCyan;
+                        Console.WriteLine("                                                                                  ");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine($"                                                                                 ");
                         KeyPress();
                         break;
                     default:
@@ -514,6 +535,7 @@ namespace ContaBancaria
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("$                                                                                 $");
+            Console.WriteLine("$            0 - Listar Operações realizadas                                      $");
             Console.WriteLine("$            1 - Criar Conta                                                      $");
             Console.WriteLine("$            2 - Listar todas as Contas                                           $");
             Console.WriteLine("$            3 - Buscar Conta por Numero                                          $");
