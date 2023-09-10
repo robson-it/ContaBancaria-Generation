@@ -78,19 +78,41 @@ namespace ContaBancaria
                         Console.WriteLine("\n[NÚMERO DA AGÊNCIA]");
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         numeroAgencia = ValidaNumeroAgencia("novaConta");
-                        
-                        
+
+
                         if (numeroAgencia < 0)
                         {
                             break;
                         }
 
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("\n[NOME DO TITULAR]");
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        titular = Console.ReadLine();
-                        titular ??= string.Empty;
+                        string manter = "";
+                        do
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("\n[NOME DO TITULAR]");
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            titular = Console.ReadLine();
+                            titular ??= string.Empty;
+
+                            if (titular.Equals(string.Empty))
+                            {
+
+                                do
+                                {
+                                    Console.WriteLine("Nenhum nome foi digitado, deseja prosseguir assim mesmo? [S] Sim [N] Não, digitar novamente.");
+                                    manter = Console.ReadLine();
+                                    if (!manter.ToUpper().Equals("N") && !manter.ToUpper().Equals("S"))
+                                    {
+                                        Console.WriteLine("Selecione uma opção válida!");
+                                    }
+                                } while (!manter.ToUpper().Equals("N") && !manter.ToUpper().Equals("S"));
+                            }
+                            else
+                            {
+                                manter = "S";
+                            }
+                        } while (manter.ToUpper().Equals("N"));
 
                         tipoConta = ValidaTipoConta();
                         if (tipoConta < 0)
@@ -138,7 +160,7 @@ namespace ContaBancaria
                                 KeyPress();
                                 break;
                         }
-                        
+
                         break;
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Cadastrar nova conta +++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -160,7 +182,7 @@ namespace ContaBancaria
                         Console.WriteLine("\n[NÚMERO DA CONTA]");
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         numero = ValidaNumeroConta();
-                        
+
 
                         if (numero > 0)
                         {
@@ -184,7 +206,7 @@ namespace ContaBancaria
                         Console.WriteLine("\n[NÚMERO DA CONTA]");
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         numero = ValidaNumeroConta();
-                        
+
 
                         Conta conta = null;
                         if (numero > 0)
@@ -199,36 +221,51 @@ namespace ContaBancaria
                             Console.WriteLine("\n[NÚMERO DA AGÊNCIA]");
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
                             numeroAgencia = ValidaNumeroAgencia("existente", conta);
-                            
+
                             if (numeroAgencia < 0)
                             {
                                 break;
                             }
 
-                            Console.Clear();
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("\n[NOME DO TITULAR]");
-                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                            titular = Console.ReadLine();
-                            titular ??= string.Empty;
-                            if (titular.Equals(string.Empty))
-                            {
-                                Console.WriteLine("Deseja manter o nome do titular? [S] Sim [N] Não");
-                                string manter;
-                                manter = Console.ReadLine();
 
-                                if (manter.ToUpper().Equals("S"))
+                            do
+                            {
+                                Console.Clear();
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine("\n[NOME DO TITULAR]");
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                titular = Console.ReadLine();
+                                titular ??= string.Empty;
+
+                                if (titular.Equals(string.Empty))
                                 {
-                                    titular = conta.getTitular();
+
+                                    do
+                                    {
+                                        Console.WriteLine("Nenhum nome foi digitado, deseja manter o titular anterior? [S] Sim [N] Não, digitar novamente.");
+                                        manter = Console.ReadLine();
+                                        if (!manter.ToUpper().Equals("N") && !manter.ToUpper().Equals("S"))
+                                        {
+                                            Console.WriteLine("Selecione uma opção válida!");
+                                        } else if (manter.ToUpper().Equals("S"))
+                                        {
+                                            titular = conta.getTitular();
+                                        }
+                                    } while (!manter.ToUpper().Equals("N") && !manter.ToUpper().Equals("S"));
                                 }
-                            }
+                                else
+                                {
+                                    manter = "S";
+                                }
+                            } while (manter.ToUpper().Equals("N"));
+
 
                             tipoConta = conta.getTipo();
 
                             Console.Clear();
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("\n[SALDO DA CONTA]");
-                            Console.ForegroundColor = ConsoleColor.DarkYellow; 
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
                             saldoConta = ValidaValorDecimal("saldoExistente", conta);
                             if (saldoConta < 0)
                             {
@@ -255,7 +292,7 @@ namespace ContaBancaria
                                     Console.WriteLine("\n[ANIVERSÁRIO DA CONTA]");
                                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                                     aniversario = ValidaAniversarioConta("existente", conta);
-                                    if(aniversario < 1)
+                                    if (aniversario < 1)
                                     {
                                         break;
                                     }
@@ -340,7 +377,8 @@ namespace ContaBancaria
                                 }
                                 break;
                             }
-                            else {
+                            else
+                            {
                                 Console.Clear();
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine($"A conta {numero} não foi encontrada!");
@@ -348,7 +386,7 @@ namespace ContaBancaria
                                 KeyPress();
                                 break;
                             }
-                            
+
                         }
                     //+++++++++++++++++++++++++++++++++++++++++++++++++ Fim Realizar um saque ++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -550,7 +588,7 @@ namespace ContaBancaria
                     {
                         numeroConta = -1;
                         CancelarOperacao();
-                        
+
                         break;
                     }
                 }
@@ -593,7 +631,7 @@ namespace ContaBancaria
                         {
                             numeroAgencia = -1;
                             CancelarOperacao();
-                            
+
                         }
 
                     }
@@ -624,7 +662,7 @@ namespace ContaBancaria
                         {
                             numeroAgencia = -1;
                             CancelarOperacao();
-                            
+
                             break;
                         }
 
@@ -664,7 +702,7 @@ namespace ContaBancaria
                         {
                             aniversarioConta = -1;
                             CancelarOperacao();
-                            
+
                             break;
                         }
                         aniversarioConta = -1;
@@ -698,12 +736,12 @@ namespace ContaBancaria
                         {
                             aniversarioConta = -1;
                             CancelarOperacao();
-                            
+
                             break;
                         }
                         if (opcao.ToUpper().Equals("M"))
                         {
-                            aniversarioConta = conta.getAniversarioConta(); 
+                            aniversarioConta = conta.getAniversarioConta();
                             break;
                         }
                         aniversarioConta = -1;
@@ -743,7 +781,7 @@ namespace ContaBancaria
                     {
                         tipoConta = -1;
                         CancelarOperacao();
-                        
+
                         break;
                     }
                     tipoConta = 0;
@@ -762,7 +800,7 @@ namespace ContaBancaria
                 {
                     try
                     {
-                        
+
                         Console.WriteLine("\nDigite o valor R$: ");
                         valorDecimal = Convert.ToDecimal(Console.ReadLine());
                         if (valorDecimal < 0)
@@ -783,7 +821,7 @@ namespace ContaBancaria
                         {
                             valorDecimal = -1;
                             CancelarOperacao();
-                            
+
                             break;
                         }
                     }
@@ -817,7 +855,7 @@ namespace ContaBancaria
                         {
                             valorDecimal = -1;
                             CancelarOperacao();
-                            
+
                             break;
                         }
                         else if (opcao.ToUpper().Equals("M"))
