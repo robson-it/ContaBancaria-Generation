@@ -16,6 +16,8 @@ namespace ContaBancaria.Repository
         public void Cadastrar(Conta conta);
         public void Atualizar(Conta conta);
         public void Deletar(int numero);
+        public void ListarContasPorTitular(string titular);
+        public void ListarOperacoesRealizadas();
 
         //Métodos Bancários
         public void Sacar(int numeroConta, decimal valorSaque);

@@ -223,6 +223,21 @@ namespace ContaBancaria.Controller
             return null;
         }
 
+        public void ListarContasPorTitular(string titular)
+        {
+            var contasPorTitular = (from conta in listaContas
+                                    where conta.getTitular().Contains(titular)
+                                    select conta).ToList();
+            contasPorTitular.ForEach(conta => conta.VisualizarConta());
+            if(contasPorTitular.Count() == 0)
+            {
+                Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Nenhuma conta foi encontrada contendo o titular digitado!");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            };
+        }
+
          
     }
 }

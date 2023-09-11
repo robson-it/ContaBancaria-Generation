@@ -96,9 +96,9 @@ namespace ContaBancaria.Model
                     tipoConta = "Conta poupança";
                     break;
             }
-            
-            
 
+
+            Console.WriteLine("");
             Console.BackgroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("                                                                                  ");
             Console.ResetColor();
